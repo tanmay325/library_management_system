@@ -48,25 +48,43 @@ def issue_book(request):
             return render(request, "issue_book.html", {'obj':obj, 'alert':alert})
     return render(request, "issue_book.html", {'form':form})
 
-@login_required(login_url = '/admin_login')
+@login_required(login_url='/admin_login')
 def view_issued_book(request):
     issuedBooks = IssuedBook.objects.all()
     details = []
     for i in issuedBooks:
-        days = (date.today()-i.issued_date)
-        d=days.days
-        fine=0
-        if d>14:
-            day=d-14
-            fine=day*5
+        days = (date.today() - i.issued_date)
+        d = days.days
+        fine = 0
+        if d > 14:
+            day = d - 14
+            fine = day * 5
+        
+        # Get the book and student related to this issued book
         books = list(models.Book.objects.filter(isbn=i.isbn))
         students = list(models.Student.objects.filter(user=i.student_id))
-        i=0
-        for l in books:
-            t=(students[i].user,students[i].user_id,books[i].name,books[i].isbn,issuedBooks[0].issued_date,issuedBooks[0].expiry_date,fine)
-            i=i+1
+        
+        if books and students:
+            # Assuming there is exactly one book and one student per issued book.
+            book = books[0]
+            student = students[0]
+            
+            t = (
+                student.user, 
+                student.user_id, 
+                book.name, 
+                book.isbn, 
+                i.issued_date, 
+                i.expiry_date, 
+                fine
+            )
             details.append(t)
-    return render(request, "view_issued_book.html", {'issuedBooks':issuedBooks, 'details':details})
+        else:
+            # Handle the case where no book or student is found (this should ideally not happen)
+            print(f"Warning: No book or student found for issued book with ISBN {i.isbn} and student ID {i.student_id}")
+    
+    return render(request, "view_issued_book.html", {'issuedBooks': issuedBooks, 'details': details})
+
 
 @login_required(login_url = '/student_login')
 def student_issued_books(request):
@@ -207,3 +225,4 @@ def admin_login(request):
 def Logout(request):
     logout(request)
     return redirect ("/")
+
