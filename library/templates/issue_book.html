@@ -26,10 +26,19 @@
 {% endblock %}
 {% block js %}
 <script>
+    {% if book_not_available %}
+    alert("The book is not available in the library.")
+    document.location = "/issue_book"
+    {% endif %}
+
+    {% if book_already_issued %}
+    alert("The book is already issued to another student.")
+    document.location = "/issue_book"
+    {% endif %}
+
     {% if alert %}
     alert("Book Successfully Issued.")
     document.location = "/issue_book"
     {% endif %}
 </script>
 {% endblock %}
-

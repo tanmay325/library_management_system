@@ -20,7 +20,7 @@
                 <th>Book Name</th>
                 <th>ISBN</th>
                 <th>Issued Date</th>
-                <th>Expiry Date</th>
+                <th>Due Date</th>
                 <th>Fine</th>
                 <th>Return</th>
             </tr>
@@ -36,7 +36,7 @@
                 <td>{{i.4}}</td>
                 <td>{{i.5}}</td>
                 <td>₹ {{i.6}}</td>
-                <td><a href="/return_issue/{{book.id}}/" class="btn btn-danger" onclick="return confirm('Are you sure you want to Return this issued book?')">Return</a></td>
+                <td><a href="{% url 'delete_issue' i.1 i.3 %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to Return this issued book?')">Return Book</a></td>
             </tr>
             {% endfor %}
         </tbody>

@@ -7,6 +7,7 @@ urlpatterns = [
     path("view_books/", views.view_books, name="view_books"),
     path("view_students/", views.view_students, name="view_students"),
     path("issue_book/", views.issue_book, name="issue_book"),
+    # path('book-autocomplete/', views.BookAutocomplete.as_view(), name='book-autocomplete'),
     path("view_issued_book/", views.view_issued_book, name="view_issued_book"),
     path("student_issued_books/", views.student_issued_books, name="student_issued_books"),
     path("profile/", views.profile, name="profile"),
@@ -20,5 +21,6 @@ urlpatterns = [
 
     path("delete_book/<int:myid>/", views.delete_book, name="delete_book"),
     path("delete_student/<int:myid>/", views.delete_student, name="delete_student"),
-    #path("delete_issue/<int:myid>/", views.delete_issue, name="delete_issue"),
+    path("delete_issue/<int:myid>/<int:isbn>", views.delete_issue, name="delete_issue"),
+    
 ]
