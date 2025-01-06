@@ -65,7 +65,7 @@ def issue_book(request):
         if form.is_valid():
             student_id = request.POST['student_name']
             isbn = request.POST['book_isbn']
-
+            # days = request.POST['days']
             # Check if the book exists in the library
             try:
                 book = models.Book.objects.get(isbn=isbn)
@@ -81,28 +81,14 @@ def issue_book(request):
             obj = models.IssuedBook()
             obj.student_id = student_id
             obj.isbn = isbn
+            # obj.days = days
             obj.save()
-
             # Success message
             alert = True
             return render(request, "issue_book.html", {'obj': obj, 'alert': alert})
 
     return render(request, "issue_book.html", {'form': form})
 
-# old function
-# @login_required(login_url = '/admin_login')
-# def issue_book(request):
-#     form = forms.IssueBookForm()
-#     if request.method == "POST":
-#         form = forms.IssueBookForm(request.POST)
-#         if form.is_valid():
-#             obj = models.IssuedBook()
-#             obj.student_id = request.POST['name2']
-#             obj.isbn = request.POST['isbn2']
-#             obj.save()
-#             alert = True
-#             return render(request, "issue_book.html", {'obj':obj, 'alert':alert})
-#     return render(request, "issue_book.html", {'form':form})
 
 @login_required(login_url='/admin_login')
 def view_issued_book(request):
@@ -124,7 +110,6 @@ def view_issued_book(request):
             # Assuming there is exactly one book and one student per issued book.
             book = books[0]
             student = students[0]
-            
             t = (
                 student.user, 
                 student.user_id, 
@@ -201,10 +186,8 @@ def delete_issue(request, myid, isbn):
     except IssuedBook.DoesNotExist:
         # Book has already been deleted
         return redirect('view_issued_book')
-
     # Delete the issued book
     issue.delete()
-
     # Redirect to the issued books page
     return redirect('view_issued_book')
 
@@ -276,16 +259,6 @@ def admin_login(request):
             alert = True
             return render(request, "admin_login.html", {'alert':alert})
     return render(request, "admin_login.html")
-
-
-# class BookAutocomplete(autocomplete.Select2QuerySetView):
-#     def get_queryset(self):
-#         qs = Book.objects.all()
-
-#         if self.q:
-#             qs = qs.filter(name__icontains=self.q)  # Filter books by name
-
-#         return qs
 
 def Logout(request):
     logout(request)
