@@ -8,6 +8,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from dal import autocomplete
+import re
 
 def index(request):
     return render(request, "index.html")
@@ -229,6 +230,7 @@ def student_registration(request):
     if request.method == "POST":
         Username=request.POST['username']
         password=request.POST['password']
+        phone=request.POST['phone']
         confirm_password = request.POST['confirm_password']
         if password != confirm_password:
             passnotmatch = True
@@ -236,9 +238,9 @@ def student_registration(request):
 
         if User.objects.filter(username=Username).exists():
             return render(request, "student_registration.html", {'username_exists': True})
-        
+    
         user = User.objects.create_user(username=Username, email=request.POST['email'], password=password,first_name=request.POST['first_name'], last_name=request.POST['last_name'])
-        student = Student.objects.create(user=user, phone=request.POST['phone'], branch=request.POST['branch'], classroom=request.POST['classroom'],roll_no=request.POST['roll_no'], image=request.FILES['image'])
+        student = Student.objects.create(user=user, phone=phone, branch=request.POST['branch'], classroom=request.POST['classroom'],roll_no=request.POST['roll_no'], image=request.FILES['image'])
         user.save()
         student.save()
         alert = True
