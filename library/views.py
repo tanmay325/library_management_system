@@ -92,15 +92,15 @@ def issue_book(request):
 
 @login_required(login_url='/admin_login')
 def view_issued_book(request):  
-    query = request.GET.get('q', '')  # Get the search query from the URL parameters
+    # query = request.GET.get('q', '')  # Get the search query from the URL parameters
     issuedBooks = IssuedBook.objects.all()  # Get all issued books
-    
-    if query:
-        # Filter issued books by student username or book name
-        issuedBooks = issuedBooks.filter(
-            Q(student_id__user__username__icontains=query) | 
-            Q(book__name__icontains=query)
-        )
+
+    # if query:
+    #     # Filter issued books by student username or book name
+    #     issuedBooks = issuedBooks.filter(
+    #         Q(student_id__user__username__icontains=query) | 
+    #         Q(book__name__icontains=query)
+    #     )
         
     details = []
     for i in issuedBooks:
@@ -133,7 +133,7 @@ def view_issued_book(request):
             # Handle the case where no book or student is found (this should ideally not happen)
             print(f"Warning: No book or student found for issued book with ISBN {i.isbn} and student ID {i.student_id}")
     
-    return render(request, "view_issued_book.html", {'issuedBooks': issuedBooks, 'details': details, 'query': query})
+    return render(request, "view_issued_book.html", {'issuedBooks': issuedBooks, 'details': details})
 
 
 @login_required(login_url = '/student_login')
