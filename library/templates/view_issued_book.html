@@ -3,13 +3,56 @@
 {% block title %} All Students List {% endblock %}
 {% block css %}
 <style>
-    body{
+    body {
         background-color: lavender;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        margin-top: 20px; /* Adjust based on navbar height */
+    }
+    h1 {
+        margin-bottom: 20px;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+    .table th {
+        background-color:rgb(75, 160, 251);
+        color: white;
+        font-weight: bold;
+    }
+    .table tr:nth-child(even) {
+        background-color: #e3f2fd; /* Light blue */
+    }
+    .table tr:nth-child(odd) {
+        background-color: #f5f5f5; /* Light gray */
+    }
+    .table tr:hover {
+        background-color: #d1e7ff; /* Slightly darker blue on hover */
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
     }
 </style>
 {% endblock %}
 {% block body %}
-<div class="container mt-4">
+<div class="container">
     <h1 class="text-center"><u>All Issued Books</u></h1>
     <table class="table table-hover" id="example">
         <thead>
@@ -36,10 +79,14 @@
                 <td>{{i.4}}</td>
                 <td>{{i.5}}</td>
                 <td>₹ {{i.6}}</td>
-                <td><a href="{% url 'delete_issue' i.1 i.3 %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to Return this issued book?')">Return Book</a></td>
+                <td>
+                    <a href="{% url 'delete_issue' i.1 i.3 %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to Return this issued book?')">
+                        Return Book
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    </div>
+</div>
 {% endblock %}
