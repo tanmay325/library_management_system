@@ -3,8 +3,20 @@
 {% block title %} All Students List {% endblock %}
 {% block css %}
 <style>
-    body{
+    body {
         background-color: lavender;
+    }
+
+    table.table-hover tbody tr:nth-child(odd) {
+        background-color: #f9f9f9; /* Light gray for odd rows */
+    }
+
+    table.table-hover tbody tr:nth-child(even) {
+        background-color:rgb(230, 249, 250); /* Lavender for even rows */
+    }
+
+    table.table-hover tbody tr:hover {
+        background-color: #dcdcdc; /* Highlight row on hover */
     }
 </style>
 {% endblock %}

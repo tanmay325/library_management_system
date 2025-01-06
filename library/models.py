@@ -27,7 +27,7 @@ class Student(models.Model):
 def expiry():
     return datetime.today() + timedelta(days=14)
 class IssuedBook(models.Model):
-    student_id = models.CharField(max_length=100, blank=True) 
+    student_id = models.PositiveIntegerField(blank=True) 
     isbn = models.CharField(max_length=13)
     issued_date = models.DateField(auto_now=True)
     expiry_date = models.DateField(default=expiry)
